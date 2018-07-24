@@ -5,6 +5,7 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Sidebar from './components/Sidebar';
 import store from './store';
+import CalendarContainer from './containers/CalendarContainer';
 
 const App = () => (
   <div className="container-fluid with-sidebar">
@@ -12,7 +13,10 @@ const App = () => (
       <div className="col">
         <Provider store={store}>
           <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <Sidebar />
+            <React.Fragment>
+              <Sidebar />
+              <CalendarContainer />
+            </React.Fragment>
           </MuiThemeProvider>
         </Provider>
       </div>

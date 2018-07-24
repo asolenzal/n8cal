@@ -5,8 +5,9 @@ const INITIAL_STATE = {
   loadingHolidays: false,
   generatingCalendar: false,
   countries: [],
-  holidays: [],
+  holidays: {},
   calendar: {},
+  globalError: 'Sorry but countries failed to load, refresh the page please',
   params: {
     num_days: null,
     start_date: null,
@@ -85,9 +86,8 @@ export default (state = INITIAL_STATE, action) => {
     case Types.FIELD_CHANGE: {
       const { fieldName, value } = action;
 
-      const params = { state };
+      const { params } = state;
       params[fieldName] = value;
-
       return {
         ...state,
         params,

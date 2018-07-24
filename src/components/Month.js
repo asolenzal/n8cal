@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class Month extends React.Component {
   static propTypes = {
     holidays: PropTypes.object.isRequired,
-    weeks: PropTypes.object.isRequired,
+    weeks: PropTypes.array.isRequired,
   };
 
   getHoliday(date) {
@@ -22,15 +22,15 @@ class Month extends React.Component {
     switch (true) {
       case date && (index === 0 || index === 6):
         return (
-          <WeekendDay>
+          <WeekendDay key={`weekend-day-${(Math.random() + 5) * index}`}>
             {date.day}
           </WeekendDay>
         );
       case date === null:
-        return <NullDay />;
+        return <NullDay key={`null-day-${(Math.random() + 5) * index}`} />;
       default:
         return (
-          <RegularDay>
+          <RegularDay key={`reg-day-${(Math.random() + 5) * index}`}>
             {date.day}
           </RegularDay>
         );
@@ -39,14 +39,14 @@ class Month extends React.Component {
 
   render() {
     const { weeks } = this.props;
-    return weeks.map(week => (
-      <Row>
+    return weeks.map((week, outerIndex) => (
+      <Row key={`week-${(Math.random() + 5) * outerIndex}`}>
         {
           week.map((date, index) => {
             const holiday = this.getHoliday(date);
             if (holiday) {
               return (
-                <Holiday title={holiday.text}>
+                <Holiday title={holiday.text} key={`holiday-${(Math.random() + 5) * index}`}>
                   {date.day}
                 </Holiday>
               );

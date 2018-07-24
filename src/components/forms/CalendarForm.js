@@ -14,6 +14,11 @@ class CalendarForm extends React.Component {
     handleFieldChange: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
     countries: PropTypes.array.isRequired,
+    globalError: PropTypes.string,
+  }
+
+  static defaultProps = {
+    globalError: null,
   }
 
   state = {
@@ -63,7 +68,7 @@ class CalendarForm extends React.Component {
 
   render = () => {
     const { formErrors } = this.state;
-    const { countries } = this.props;
+    const { countries, globalError, params } = this.props;
     return (
       <div className="container-fluid">
         <div className="row">
@@ -74,6 +79,7 @@ class CalendarForm extends React.Component {
               fullWidth
               floatingLabelText="Select a date"
               onChange={(e, date) => { this.handleFieldChange('start_date', date); }}
+              disabled={globalError !== ''}
             />
           </div>
           <div className="col-12">
@@ -83,16 +89,19 @@ class CalendarForm extends React.Component {
               fullWidth
               floatingLabelText="Set the days"
               onChange={(e, value) => { this.handleFieldChange('num_days', value); }}
+              disabled={globalError !== ''}
             />
           </div>
           <div className="col-12">
             <AutoComplete
+              filter={AutoComplete.fuzzyFilter}
               errorText={formErrors.country}
               fullWidth
               floatingLabelText="Type a country name"
               dataSource={countries.map(v => ({ text: v.fullName, value: v.countryCode }))}
               dataSourceConfig={{ value: 'value', text: 'text' }}
               onNewRequest={(chosenRequest, index) => { this.handleFieldChange('country', index !== -1 ? countries[index].countryCode : null); }}
+              disabled={globalError !== ''}
             />
           </div>
           <div className="col-12 mt-5">
@@ -100,7 +109,7 @@ class CalendarForm extends React.Component {
               label="Generate"
               type="button"
               fullWidth
-              // disabled={!this.props.valid}
+              disabled={!(params.start_date && params.num_days && params.country) || globalError !== ''}
               primary
               onClick={() => { this.handleSubmit(); }}
             />
@@ -115,6 +124,7 @@ function mapStateToProps({ calendarReducer }) {
   return {
     countries: calendarReducer.countries,
     params: calendarReducer.params,
+    globalError: calendarReducer.globalError,
   };
 }
 

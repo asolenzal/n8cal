@@ -10,13 +10,13 @@ class Calendar extends React.Component {
     const { dates, holidays } = this.props;
     return (
       <div className="row">
-        {Object.keys(dates).map(month => (
-          <div className="col-12 col-md-6 col-lg-4 col-xl-2 mb-5">
+        {Object.keys(dates).map((month, index) => (
+          <div key={`month-${index * Math.random()}`} className="col-12 col-md-6 col-lg-4 col-xl-2 mb-5">
             <table>
               <tbody>
                 <tr>
                   {this.weekDays.map(dayName => (
-                    <DayName>
+                    <DayName key={`dayName-${Math.random()}`}>
                       {dayName}
                     </DayName>
                   ))}
@@ -26,7 +26,7 @@ class Calendar extends React.Component {
                     {month}
                   </MonthName>
                 </tr>
-                <Month weeks={dates[month]} holidays={holidays} />
+                <Month key={`weeks-${index * (Math.random() + 5)}`} weeks={dates[month]} holidays={holidays} />
               </tbody>
             </table>
           </div>
@@ -37,8 +37,8 @@ class Calendar extends React.Component {
 }
 
 Calendar.propTypes = {
-  holidays: PropTypes.array.isRequired,
-  dates: PropTypes.object.isRequired,
+  holidays: PropTypes.object.isRequired,
+  dates: PropTypes.any.isRequired,
 };
 
 const MonthName = styled.td`

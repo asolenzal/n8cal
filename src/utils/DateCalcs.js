@@ -11,7 +11,6 @@ export default class DateCalcs {
     const calendar = {};
 
     // Initial date setup
-    debugger;
     const initialMonth = startDate.format('MMMM, YYYY');
     calendar[initialMonth] = new Array(parseInt(startDateWeekDay, 10));
     calendar[initialMonth].fill(null);
