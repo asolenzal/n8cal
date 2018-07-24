@@ -1,0 +1,26 @@
+{
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "plugins": [
+    "babel"
+  ],
+  "rules": {
+    "import/no-extraneous-dependencies": "off",
+    "react/jsx-filename-extension": "off",
+    "import/no-named-as-default": "off",
+    "import/no-named-as-default-member": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "react/forbid-prop-types": "off",
+    "no-param-reassign": 0
+  }
+}
