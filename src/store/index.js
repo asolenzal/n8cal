@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import thunk from 'redux-thunk';
-import calendarReducer from './../reducers/calendar';
+import calendarReducer from '../reducers/calendar';
 
 // reducers
 

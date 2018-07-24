@@ -47,7 +47,7 @@ class CalendarForm extends React.Component {
       errors.num_days = 'This field is required';
     }
 
-    if (!errors.num_daysx
+    if (!errors.num_days
       && (!validator.isNumeric(values.num_days) || !validator.isInt(values.num_days))) {
       errors.num_days = 'This field should be an integer number';
     }

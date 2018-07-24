@@ -23,7 +23,6 @@ export default (state = INITIAL_STATE, action) => {
         loadingCountries: loading,
       };
     }
-
     case Types.COUNTRIES_LOADED: {
       const countries = action.response;
       return {
@@ -31,7 +30,6 @@ export default (state = INITIAL_STATE, action) => {
         countries,
       };
     }
-
     case Types.HOLIDAYS_LOADING: {
       const { loading } = action;
       return {
@@ -39,9 +37,29 @@ export default (state = INITIAL_STATE, action) => {
         loadingHolidays: loading,
       };
     }
-
     case Types.HOLIDAYS_LOADED: {
+      const { response } = action;
+
+      // Convert holidays to an object using date elements as keys in order to optimize searching
       const holidays = {};
+
+      response.forEach((holiday) => {
+        holiday.date.month = holiday.date.month.toString().padStart(2, '0');
+        holiday.date.day = holiday.date.day.toString().padStart(2, '0');
+
+        if (!holidays[holiday.date.year]) {
+          holidays[holiday.date.year] = {};
+        }
+        if (!holidays[holiday.date.year][holiday.date.month]) {
+          holidays[holiday.date.year][holiday.date.month] = {};
+        }
+        if (!holidays[holiday.date.year][holiday.date.month][holiday.date.day]) {
+          holidays[holiday.date.year][holiday.date.month][holiday.date.day] = '';
+        }
+        // eslint-disable-next-line
+        holidays[holiday.date.year][holiday.date.month][holiday.date.day] = holiday.name[0];
+      });
+
       return {
         ...state,
         holidays,
@@ -66,8 +84,10 @@ export default (state = INITIAL_STATE, action) => {
 
     case Types.FIELD_CHANGE: {
       const { fieldName, value } = action;
-      const { params } = state;
+
+      const params = { state };
       params[fieldName] = value;
+
       return {
         ...state,
         params,
